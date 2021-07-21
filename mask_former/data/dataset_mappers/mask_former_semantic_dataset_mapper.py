@@ -67,11 +67,7 @@ class MaskFormerSemanticDatasetMapper:
     def from_config(cls, cfg, is_train=True):
         # Build augmentation
         augs = [
-            T.ResizeShortestEdge(
-                cfg.INPUT.MIN_SIZE_TRAIN,
-                cfg.INPUT.MAX_SIZE_TRAIN,
-                cfg.INPUT.MIN_SIZE_TRAIN_SAMPLING,
-            )
+            Resize(256)
         ]
         if cfg.INPUT.CROP.ENABLED:
             augs.append(
