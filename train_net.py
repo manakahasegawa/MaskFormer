@@ -58,8 +58,8 @@ def get_microcontroller_dicts(directory):
         filename = os.path.join(directory, img_anns["imagePath"])
         
         record["file_name"] = filename
-        record["height"] = 600
-        record["width"] = 800
+        record["height"] = 256
+        record["width"] = 256
       
         annos = img_anns["shapes"]
         objs = []
