@@ -144,7 +144,8 @@ class MaskFormerSemanticDatasetMapper:
             nb_classes = 5 # 18 classes + background
             idx = np.linspace(0., 1., nb_classes)
             target = sem_seg_gt
-            rgb = cmap(idx, bytes=True)[:, :3]  # Remove alpha value
+            rgb = cmap(idx, bytes=True)[:, :3]
+            cmap = matplotlib.cm.get_cmap('viridis')# Remove alpha value
 
 
             # Create mapping
