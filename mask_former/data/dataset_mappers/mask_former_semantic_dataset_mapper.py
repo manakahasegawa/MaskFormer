@@ -178,7 +178,7 @@ class MaskFormerSemanticDatasetMapper:
                 instances.gt_masks = torch.zeros((0, sem_seg_gt.shape[-2], sem_seg_gt.shape[-1]))
             else:
                 masks = BitMasks(
-                    torch.stack([torch.from_numpy(np.ascontiguousarray(x)) for x in masks])
+                    torch.stack([torch.from_numpy(np.ascontiguousarray(x.unsqueeze())) for x in masks])
                 )
                 instances.gt_masks = masks.tensor
 
