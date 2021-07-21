@@ -14,8 +14,8 @@ MODEL:
     # NORM: "SyncBN"
     RES5_MULTI_GRID: [1, 1, 1]  # not used
 DATASETS:
-  TRAIN: ("ade20k_sem_seg_train",)
-  TEST: ("ade20k_sem_seg_val",)
+  TRAIN: ("room",)
+  TEST: ("room",)
 SOLVER:
   IMS_PER_BATCH: 16
   BASE_LR: 0.0001
