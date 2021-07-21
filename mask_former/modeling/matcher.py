@@ -43,15 +43,16 @@ def batch_sigmoid_focal_loss(inputs, targets, alpha: float = 0.25, gamma: float 
     Returns:
         Loss tensor
     """
+    loss_func = torch.nn.BCEWithLogitsLoss()
     print(targets.shape, inputs.shape)
     hw = inputs.shape[1]
 
     prob = inputs.sigmoid()
-    focal_pos = ((1 - prob) ** gamma) * F.binary_cross_entropy_with_logits(
-        inputs, torch.ones_like(inputs.detach()), reduction="none"
+    focal_pos = ((1 - prob) ** gamma) * loss_func(
+        inputs, torch.ones_like(inputs), reduction="none"
     )
-    focal_neg = (prob ** gamma) * F.binary_cross_entropy_with_logits(
-        inputs, torch.zeros_like(inputs.detach()), reduction="none"
+    focal_neg = (prob ** gamma) * loss_func(
+        inputs, torch.zeros_like(inputs), reduction="none"
     )
     if alpha >= 0:
         focal_pos = focal_pos * alpha
