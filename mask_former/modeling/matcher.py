@@ -43,7 +43,7 @@ def batch_sigmoid_focal_loss(inputs, targets, alpha: float = 0.25, gamma: float 
     Returns:
         Loss tensor
     """
-    print(target.shape, inputs.shape)
+    print(targets.shape, inputs.shape)
     hw = inputs.shape[1]
 
     prob = inputs.sigmoid()
