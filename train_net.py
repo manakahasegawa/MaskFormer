@@ -78,7 +78,6 @@ def get_microcontroller_dicts(directory):
                 "iscrowd": 0
             }
             objs.append(obj)
-        record["annotations"] = objs
         dataset_dicts.append(record)
     return dataset_dicts
 from detectron2.data import DatasetCatalog, MetadataCatalog
