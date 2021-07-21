@@ -46,6 +46,7 @@ def batch_sigmoid_focal_loss(inputs, targets, alpha: float = 0.25, gamma: float 
     hw = inputs.shape[1]
 
     prob = inputs.sigmoid()
+    print(input.shape)
     focal_pos = ((1 - prob) ** gamma) * F.binary_cross_entropy_with_logits(
         inputs, torch.ones_like(inputs), reduction="none"
     )
