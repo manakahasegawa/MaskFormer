@@ -135,7 +135,6 @@ class MaskFormerSemanticDatasetMapper:
         image = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if sem_seg_gt is not None:
             sem_seg_gt = torch.as_tensor(sem_seg_gt.astype("long"))
-            import torch
 
             import numpy as np
             import matplotlib
