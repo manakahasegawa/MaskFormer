@@ -151,7 +151,6 @@ class MaskFormerSemanticDatasetMapper:
             # Create mapping
             # Get color codes for dataset (maybe you would have to use more than a single
             # image, if it doesn't contain all classes)
-            target = torch.from_numpy(target)
             colors = torch.unique(target.view(-1, target.size(2)), dim=0).numpy()
             target = target.permute(2, 0, 1).contiguous()
 
