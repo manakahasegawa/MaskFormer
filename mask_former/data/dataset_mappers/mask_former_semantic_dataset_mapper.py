@@ -158,7 +158,7 @@ class MaskFormerSemanticDatasetMapper:
             instances = Instances(image_shape)
             classes = np.unique(sem_seg_gt)
             # remove ignored region
-            classes = classes[classes != self.ignore_label]
+            classes = classes[classes != 255]
             instances.gt_classes = torch.tensor(classes, dtype=torch.int64)
 
             masks = []
