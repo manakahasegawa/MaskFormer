@@ -55,7 +55,7 @@ def batch_sigmoid_focal_loss(inputs, targets, alpha: float = 0.25, gamma: float 
     if alpha >= 0:
         focal_pos = focal_pos * alpha
         focal_neg = focal_neg * (1 - alpha)
-
+    print(target.shape)
     loss = torch.einsum("nc,mc->nm", focal_pos, targets) + torch.einsum(
         "nc,mc->nm", focal_neg, (1 - targets)
     )
