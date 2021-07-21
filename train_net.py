@@ -40,6 +40,49 @@ from mask_former import (
     add_mask_former_config,
 )
 
+import os
+import numpy as np
+import json
+from detectron2.structures import BoxMode
+
+def get_microcontroller_dicts(directory):
+    classes =['hairdryer', 'pc_case', 'samir_home', 'tissue', 'wet_tissue']
+    dataset_dicts = []
+    for filename in [file for file in os.listdir(directory) if file.endswith('.json')]:
+        json_file = os.path.join(directory, filename)
+        with open(json_file) as f:
+            img_anns = json.load(f)
+
+        record = {}
+        
+        filename = os.path.join(directory, img_anns["imagePath"])
+        
+        record["file_name"] = filename
+        record["height"] = 600
+        record["width"] = 800
+      
+        annos = img_anns["shapes"]
+        objs = []
+        for anno in annos:
+            px = [a[0] for a in anno['points']]
+            py = [a[1] for a in anno['points']]
+            poly = [(x, y) for x, y in zip(px, py)]
+            poly = [p for x in poly for p in x]
+
+            obj = {
+                "bbox": [np.min(px), np.min(py), np.max(px), np.max(py)],
+                "bbox_mode": BoxMode.XYXY_ABS,
+                "segmentation": [poly],
+                "category_id": classes.index(anno['label']),
+                "iscrowd": 0
+            }
+            objs.append(obj)
+        record["annotations"] = objs
+        dataset_dicts.append(record)
+    return dataset_dicts
+from detectron2.data import DatasetCatalog, MetadataCatalog
+print(callable(get_microcontroller_dicts))
+DatasetCatalog.register("room", lambda d='a': get_microcontroller_dicts('../input/imagessss/img'))
 
 class Trainer(DefaultTrainer):
     """
