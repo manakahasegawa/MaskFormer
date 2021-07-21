@@ -10,6 +10,7 @@ def add_mask_former_config(cfg):
     # data config
     # select the dataset mapper
     cfg.INPUT.DATASET_MAPPER_NAME = "mask_former_semantic"
+    cfg.MODEL.WEIGHTS = '/outputs/model_final.pth'
     # Color augmentation
     cfg.INPUT.COLOR_AUG_SSD = False
     # We retry random cropping until no single category in semantic segmentation GT occupies more
