@@ -6,6 +6,10 @@ import numpy as np
 import torch
 from torch.nn import functional as F
 
+import matplotlib
+import matplotlib.pyplot as plt
+
+
 from detectron2.config import configurable
 from detectron2.data import MetadataCatalog
 from detectron2.data import detection_utils as utils
@@ -135,10 +139,6 @@ class MaskFormerSemanticDatasetMapper:
         image = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if sem_seg_gt is not None:
             sem_seg_gt = torch.as_tensor(sem_seg_gt.astype("long"))
-
-            import numpy as np
-            import matplotlib
-            import matplotlib.pyplot as plt
 
             # Create dummy target image
             nb_classes = 5 # 18 classes + background
