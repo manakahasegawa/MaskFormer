@@ -167,6 +167,7 @@ class MaskFormerSemanticDatasetMapper:
             classes = np.unique(sem_seg_gt)
             # remove ignored region
             classes = classes[classes != self.ignore_label]
+            print(classes.type)
             instances.gt_classes = torch.tensor(classes, dtype=torch.int64)
 
             masks = []
@@ -177,7 +178,7 @@ class MaskFormerSemanticDatasetMapper:
                 # Some image does not have annotation (all ignored)
                 instances.gt_masks = torch.zeros((0, sem_seg_gt.shape[-2], sem_seg_gt.shape[-1]))
             else:
-                masks = [x.long() for x in masks]
+                print(masks)
                 masks = BitMasks(
                     torch.stack([torch.from_numpy(np.ascontiguousarray(x.copy())) for x in masks])
                 )
