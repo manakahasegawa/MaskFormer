@@ -181,6 +181,7 @@ class MaskFormerSemanticDatasetMapper:
                 masks = BitMasks(
                     torch.stack([torch.from_numpy(np.ascontiguousarray(x.copy())) for x in masks])
                 )
+                print(masks.tensor.shape)
                 instances.gt_masks = masks.tensor
 
             dataset_dict["instances"] = instances
