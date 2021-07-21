@@ -171,6 +171,7 @@ class MaskFormerSemanticDatasetMapper:
 
             masks = []
             for class_id in classes:
+                print(class_id)
                 masks.append(sem_seg_gt & class_id)
 
             if len(masks) == 0:
