@@ -15,39 +15,6 @@ from detectron2.structures import BitMasks, Instances
 
 __all__ = ["MaskFormerSemanticDatasetMapper"]
 
-def mask_to_class(mask):
-
-        #target = torch.from_numpy(mask)
-
-        target = mask
-
-        h,w = target.shape[0],target.shape[1]
-
-        masks = torch.empty(h, w, dtype=torch.long)
-
-        colors = torch.unique(target.view(-1,target.size(2)),dim=0).numpy()
-
-        #print("colors: " + colors)
-
-        print("len(colors): " + str(len(colors)))
-
-        target = target.permute(2, 0, 1).contiguous()
-
-        mapping = {tuple(c): t for c, t in zip(colors.tolist(), range(len(colors)))}
-
-        #print("mapping: " + str(mapping))
-
-        for k in mapping:
-
-            print("k: " + str(k))
-
-            idx = (target==torch.tensor(k, dtype=torch.uint8).unsqueeze(1).unsqueeze(2))
-
-            validx = (idx.sum(0) == 3) 
-
-            masks[validx] = torch.tensor(mapping[k], dtype=torch.long)
-
-        return masks
 
 
 class MaskFormerSemanticDatasetMapper:
@@ -168,7 +135,35 @@ class MaskFormerSemanticDatasetMapper:
         image = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if sem_seg_gt is not None:
             sem_seg_gt = torch.as_tensor(sem_seg_gt.astype("long"))
-            sem_seg_gt = mask_to_class(sem_seg_gt)
+            import torch
+
+            import numpy as np
+            import matplotlib
+            import matplotlib.pyplot as plt
+
+            # Create dummy target image
+            nb_classes = 5 # 18 classes + background
+            idx = np.linspace(0., 1., nb_classes)
+            target = sem_seg_gt
+            rgb = cmap(idx, bytes=True)[:, :3]  # Remove alpha value
+
+
+            # Create mapping
+            # Get color codes for dataset (maybe you would have to use more than a single
+            # image, if it doesn't contain all classes)
+            target = torch.from_numpy(target)
+            colors = torch.unique(target.view(-1, target.size(2)), dim=0).numpy()
+            target = target.permute(2, 0, 1).contiguous()
+
+            mapping = {tuple(c): t for c, t in zip(colors.tolist(), range(len(colors)))}
+            h, w = 256, 256
+            mask = torch.empty(h, w, dtype=torch.long)
+            for k in mapping:
+                # Get all indices for current class
+                idx = (target==torch.tensor(k, dtype=torch.uint8).unsqueeze(1).unsqueeze(2))
+                validx = (idx.sum(0) == 3)  # Check that all channels match
+                mask[validx] = torch.tensor(mapping[k], dtype=torch.long)
+            sem_seg_gt = mask
 
         if self.size_divisibility > 0:
             image_size = (image.shape[-2], image.shape[-1])
