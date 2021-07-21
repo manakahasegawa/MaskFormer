@@ -67,7 +67,7 @@ class MaskFormerSemanticDatasetMapper:
     def from_config(cls, cfg, is_train=True):
         # Build augmentation
         augs = [
-            Resize(256)
+            T.Resize(256)
         ]
         if cfg.INPUT.CROP.ENABLED:
             augs.append(
@@ -136,40 +136,6 @@ class MaskFormerSemanticDatasetMapper:
         if sem_seg_gt is not None:
             sem_seg_gt = torch.as_tensor(sem_seg_gt.astype("long"))
 
-            # Create dummy target image
-            nb_classes = 5 # 18 classes + background
-            idx = np.linspace(0., 1., nb_classes)
-            target = sem_seg_gt
-            target = target.unsqueeze(0)
-            cmap = matplotlib.cm.get_cmap('viridis')#
-            rgb = cmap(idx, bytes=True)[:, :3]# Remove alpha value
-
-
-            # Create mapping
-            # Get color codes for dataset (maybe you would have to use more than a single
-            # image, if it doesn't contain all classes)
-            colors = torch.unique(target.view(-1, target.size(2)), dim=0).numpy()
-            target = target.permute(2, 0, 1).contiguous()
-
-            mapping = {tuple(c): t for c, t in zip(colors.tolist(), range(len(colors)))}
-            h, w = 256, 256
-            mask = torch.empty(h, w, dtype=torch.long)
-            for k in mapping:
-                # Get all indices for current class
-                idx = (target==torch.tensor(k, dtype=torch.uint8).unsqueeze(1).unsqueeze(2))
-                validx = (idx.sum(0) == 3)  # Check that all channels match
-                mask[validx] = torch.tensor(mapping[k], dtype=torch.long)
-            sem_seg_gt = mask
-
-        if self.size_divisibility > 0:
-            image_size = (image.shape[-2], image.shape[-1])
-            padding_size = [
-                0,
-                self.size_divisibility - image_size[1],
-                0,
-                self.size_divisibility - image_size[0],
-            ]
-            image = F.pad(image, padding_size, value=128).contiguous()
             #if sem_seg_gt is not None:
                 #sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=0).contiguous()
 
