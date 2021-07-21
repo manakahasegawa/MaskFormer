@@ -48,7 +48,7 @@ def batch_sigmoid_focal_loss(inputs, targets, alpha: float = 0.25, gamma: float 
     hw = inputs.shape[1]
 
     prob = inputs.sigmoid()
-    focal_pos = ((1 - prob) ** gamma) * loss_func(
+    focal_pos = (1 - prob) ** gamma * loss_func(
         inputs, torch.ones_like(inputs), reduction="none"
     )
     focal_neg = (prob ** gamma) * loss_func(
