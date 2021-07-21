@@ -145,7 +145,7 @@ class MaskFormerSemanticDatasetMapper:
             ]
             image = F.pad(image, padding_size, value=128).contiguous()
             if sem_seg_gt is not None:
-                sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=1).contiguous()
+                sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=0).contiguous()
 
         image_shape = (image.shape[-2], image.shape[-1])  # h, w
 
