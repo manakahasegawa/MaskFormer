@@ -15,7 +15,7 @@ from detectron2.structures import BitMasks, Instances
 
 __all__ = ["MaskFormerSemanticDatasetMapper"]
 
-def mask_to_class(self, mask):
+def mask_to_class(mask):
 
         #target = torch.from_numpy(mask)
 
