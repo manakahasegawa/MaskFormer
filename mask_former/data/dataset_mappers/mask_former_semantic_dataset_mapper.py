@@ -171,8 +171,7 @@ class MaskFormerSemanticDatasetMapper:
 
             masks = []
             for class_id in classes:
-                for class_id2 in class_id:
-                    masks.append(sem_seg_gt & class_id2)
+                masks.append(sem_seg_gt & class_id[0])
 
             if len(masks) == 0:
                 # Some image does not have annotation (all ignored)
