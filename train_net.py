@@ -60,7 +60,7 @@ def get_microcontroller_dicts(directory):
         record["file_name"] = filename
         record["height"] = 256
         record["width"] = 256
-        record['sem_seg_file_name'] = 'mask/' + filename.replace('json', 'png').replace('../input/imagessss/img/', '')
+        record['sem_seg_file_name'] = 'mask/' + filename.replace('json', 'png').replace('../input/imagessss/img/', '').replace('jpg', 'png')
       
         annos = img_anns["shapes"]
         objs = []
