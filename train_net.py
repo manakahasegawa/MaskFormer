@@ -84,6 +84,7 @@ def get_microcontroller_dicts(directory):
 from detectron2.data import DatasetCatalog, MetadataCatalog
 print(callable(get_microcontroller_dicts))
 DatasetCatalog.register("room", lambda d='a': get_microcontroller_dicts('../input/imagessss/img'))
+MetadataCatalog.get('room').stuff_classes = ['tissue', 'wet_tissue', 'pc_case', 'samir_home', 'hairdryer']
 
 class Trainer(DefaultTrainer):
     """
