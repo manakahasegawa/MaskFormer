@@ -26,6 +26,9 @@ from detectron2.utils.logger import setup_logger
 from mask_former import add_mask_former_config
 from predictor import VisualizationDemo
 
+from detectron2.data import MetadataCatalog
+
+MetadataCatalog.get('room').stuff_classes = []
 
 # constants
 WINDOW_NAME = "MaskFormer demo"
