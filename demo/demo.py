@@ -30,7 +30,7 @@ from torchvision.utils import save_image
 
 from detectron2.data import MetadataCatalog
 
-MetadataCatalog.get('room').stuff_classes = []
+MetadataCatalog.get('room').stuff_classes = ['tissue', 'wet_tissue', 'pc_case', 'samir_home', 'hairdryer']
 
 # constants
 WINDOW_NAME = "MaskFormer demo"
