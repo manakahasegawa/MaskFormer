@@ -145,8 +145,6 @@ class MaskFormerSemanticDatasetMapper:
                 self.size_divisibility - image_size[0],
             ]
             image = F.pad(image, padding_size, value=128).contiguous()
-            if sem_seg_gt is not None:
-                sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=self.ignore_label).contiguous()
 
             if sem_seg_gt is not None:
                 sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=128).contiguous()
