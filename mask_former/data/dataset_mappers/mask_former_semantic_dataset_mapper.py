@@ -136,8 +136,8 @@ class MaskFormerSemanticDatasetMapper:
         if sem_seg_gt is not None:
             sem_seg_gt = torch.as_tensor(sem_seg_gt.astype("long"))
 
-            #if sem_seg_gt is not None:
-                #sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=0).contiguous()
+            if sem_seg_gt is not None:
+                sem_seg_gt = F.pad(sem_seg_gt, padding_size, value=0).contiguous()
 
         image_shape = (image.shape[-2], image.shape[-1])  # h, w
 
